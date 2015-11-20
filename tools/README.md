@@ -16,4 +16,5 @@ https://web.archive.org/web/20131210001526/http://xecdesign.com/qemu-emulating-r
 `build-kernel-qemu` references :
 
 https://github.com/johnlane/rpi-utils/blob/master/kernel/build-kernel-qemu
+
 https://github.com/polaco1782/raspberry-qemu/blob/master/build-kernel-qemu
