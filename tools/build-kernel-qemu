@@ -41,6 +41,6 @@ CONFIG_CGROUPS=y
 EOF
 
 make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- menuconfig
-make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}-
+make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage
 cd ..
 cp linux/arch/arm/boot/zImage kernel-qemu
