@@ -5,10 +5,12 @@ While I was searching the internet about emulating QEMU, most of the guides poin
 So making it available on github for someone who would like to use it.
 Hope it helps.
 
-This repo contains two kernels.
+This repo contains two types of kernels.
 
 kernel-qemu-3.10.25-wheezy, which is the original kernel from link https://xecdesign.com/downloads/linux-qemu/kernel-qemu - Works fine with any wheezy image with changes mentioned in wiki.
 
-kernel-qemu-4.1.7-jessie, which is newer kernel compiled compatible with jessie as well as it works well with older wheezy images, build scripts are in tools folder for reference.
+kernel-qemu-4.1.7-jessie / 4.1.13-jessie, are newer kernels compiled compatible with jessie as well as they work well with older wheezy images. 
 
-Go through wiki page for step by step guide how to emulate raspberry pi on Qemu on any platform (Win, linux or Mac Os)
+Build scripts are kept in tools folder for reference.
+
+Go through wiki page for step by step guide how to emulate Raspberry Pi on Qemu on any platform (Win, linux or Mac OS)
