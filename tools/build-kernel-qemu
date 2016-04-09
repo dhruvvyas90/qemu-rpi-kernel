@@ -9,9 +9,9 @@ TOOLCHAIN=arm-linux-gnueabihf
 sudo apt-get update && sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf
 git clone https://github.com/raspberrypi/linux.git
 cd linux
-#checking out 4.1.7+ branch - change it if you want to change kernel version
+# checking out 4.1.7+ branch - change it if you want to change kernel version
 # for kernel specific hash, have a looks at : https://github.com/raspberrypi/linux/commits/rpi-4.1.y
-git checkout 77798915750db46f10bb449e1625d6368ea42e25
+# git checkout 77798915750db46f10bb449e1625d6368ea42e25
 make ARCH=arm versatile_defconfig
 cat >> .config << EOF
 CONFIG_CROSS_COMPILE="$TOOLCHAIN"

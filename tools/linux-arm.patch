@@ -1,6 +1,7 @@
-diff -rupN linux/arch/arm/mach-versatile/Kconfig linux.b/arch/arm/mach-versatile/Kconfig
---- linux/arch/arm/mach-versatile/Kconfig	2015-10-12 20:42:55.161811668 -0300
-+++ linux.b/arch/arm/mach-versatile/Kconfig	2015-10-12 16:12:43.125862874 -0300
+diff --git a/arch/arm/mach-versatile/Kconfig b/arch/arm/mach-versatile/Kconfig
+index 1dba368..82fa543 100644
+--- a/arch/arm/mach-versatile/Kconfig
++++ b/arch/arm/mach-versatile/Kconfig
 @@ -4,7 +4,6 @@ menu "Versatile platform type"
  config ARCH_VERSATILE_PB
  	bool "Support Versatile Platform Baseboard for ARM926EJ-S"
@@ -17,9 +18,10 @@ diff -rupN linux/arch/arm/mach-versatile/Kconfig linux.b/arch/arm/mach-versatile
  	help
  	  Include support for the ARM(R) Versatile Application Baseboard
  	  for the ARM926EJ-S.
-diff -rupN linux/arch/arm/mm/Kconfig linux.b/arch/arm/mm/Kconfig
---- linux/arch/arm/mm/Kconfig	2015-10-12 20:42:55.165811668 -0300
-+++ linux.b/arch/arm/mm/Kconfig	2015-10-12 16:14:36.525859523 -0300
+diff --git a/arch/arm/mm/Kconfig b/arch/arm/mm/Kconfig
+index bb263d8..1e6ce77 100644
+--- a/arch/arm/mm/Kconfig
++++ b/arch/arm/mm/Kconfig
 @@ -71,7 +71,7 @@ config CPU_ARM9TDMI
  
  # ARM920T
@@ -59,8 +61,21 @@ diff -rupN linux/arch/arm/mm/Kconfig linux.b/arch/arm/mm/Kconfig
  
  # ARMv6
  config CPU_V6
--	bool "Support ARM V6 processor" if (!ARCH_MULTIPLATFORM || ARCH_MULTI_V6) && (ARCH_INTEGRATOR || MACH_REALVIEW_EB || MACH_REALVIEW_PBX)
+-	bool "Support ARM V6 processor" if (!ARCH_MULTIPLATFORM || ARCH_MULTI_V6) && (ARCH_INTEGRATOR || MACH_REALVIEW_EB || MACH_REALVIEW_PBX || MACH_BCM2708)
 +	bool "Support ARM V6 processor" if ARCH_INTEGRATOR || MACH_REALVIEW_EB || MACH_REALVIEW_PBX || MACH_BCM2708 || ARCH_VERSATILE_PB || ARCH_VERSATILE_AB
  	select CPU_32v6
  	select CPU_ABRT_EV6
  	select CPU_CACHE_V6
+diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
+index 1af139a..fd51e26 100644
+--- a/drivers/mmc/host/Kconfig
++++ b/drivers/mmc/host/Kconfig
+@@ -6,7 +6,7 @@ comment "MMC/SD/SDIO Host Controller Drivers"
+ 
+ config MMC_BCM2835
+ 	tristate "MMC support on BCM2835"
+-	depends on MACH_BCM2708 || MACH_BCM2709 || ARCH_BCM2835
++	depends on MACH_BCM2708 || MACH_BCM2709 || ARCH_BCM2835 || ARCH_VERSATILE_PB || ARCH_VERSATILE_AB
+ 	help
+ 	  This selects the MMC Interface on BCM2835.
+ 
