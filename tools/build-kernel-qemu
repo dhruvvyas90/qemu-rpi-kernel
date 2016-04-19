@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 #
 # Build ARM kernel 4.1.7 for QEMU Raspberry Pi Emulation
 #
