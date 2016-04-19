@@ -12,6 +12,9 @@ cd linux
 # checking out 4.1.7+ branch - change it if you want to change kernel version
 # for kernel specific hash, have a looks at : https://github.com/raspberrypi/linux/commits/rpi-4.1.y
 # git checkout 77798915750db46f10bb449e1625d6368ea42e25
+
+patch -p1 < ../linux-arm.patch
+
 make ARCH=arm versatile_defconfig
 cat >> .config << EOF
 CONFIG_CROSS_COMPILE="$TOOLCHAIN"
