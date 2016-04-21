@@ -57,6 +57,8 @@ CONFIG_FHANDLE=y
 CONFIG_OVERLAY_FS=y
 EOF
 
+cat ../config_ip_tables >> .config
+
 make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- menuconfig
 make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage
 cd ..
