@@ -6,21 +6,45 @@
 
 TOOLCHAIN=arm-linux-gnueabihf
 COMMIT=423c680bd722670f4b39ea79089859df02b411b6
+COMMIT=""
+INSTALL_PACKAGES=""
+USE_GIT=1
 
-#sudo apt-get update
-sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf
-#git clone https://github.com/raspberrypi/linux.git
-wget -c https://github.com/raspberrypi/linux/archive/${COMMIT}.zip -O linux-${COMMIT}.zip
-rm -rf linux-${COMMIT}
-unzip linux-${COMMIT}.zip
-cd linux-${COMMIT}
-# checking out 4.1.7+ branch - change it if you want to change kernel version
-# for kernel specific hash, have a looks at : https://github.com/raspberrypi/linux/commits/rpi-4.1.y
-# git checkout 77798915750db46f10bb449e1625d6368ea42e25
+if [ -f build-kernel-qemu.conf ] ; then
+	. build-kernel-qemu.conf
+fi
+
+if [ "$INSTALL_PACKAGES" ] ; then
+	sudo apt-get update
+	sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf
+fi
+
+if [ "$USE_GIT" ] ; then
+	# checking out 4.1.7+ branch - change it if you want to change kernel version
+	# for kernel specific hash, have a looks at : https://github.com/raspberrypi/linux/commits/rpi-4.1.y
+	if [ ! -d linux ] ; then
+		git clone https://github.com/raspberrypi/linux.git
+	else
+		echo "using existing linux sources!"
+	fi
+	cd linux
+	if [ "$COMMIT" ] ; then
+		git checkout "$COMMIT"
+	fi
+else
+	if [ -z "$COMMIT" ] ; then echo "COMMIT missing!" >&2 ; exit 1 ; fi
+	wget -c https://github.com/raspberrypi/linux/archive/${COMMIT}.zip -O linux-${COMMIT}.zip
+	rm -rf linux-${COMMIT}
+	unzip linux-${COMMIT}.zip
+	cd linux-${COMMIT}
+fi
 
 patch -p1 < ../linux-arm.patch
 
 make ARCH=arm versatile_defconfig
+KERNEL_VERSION=$(make kernelversion)
+echo "building qemu raspberry pi kernel kernel-qemu-$KERNEL_VERSION"
+
 cat >> .config << EOF
 CONFIG_CROSS_COMPILE="$TOOLCHAIN"
 CONFIG_CPU_V6=y
@@ -65,5 +89,5 @@ cat ../config_ip_tables >> .config
 
 make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- menuconfig
 make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage
+cp arch/arm/boot/zImage ../kernel-qemu-$KERNEL_VERSION
 cd ..
-cp linux-${COMMIT}/arch/arm/boot/zImage kernel-qemu
