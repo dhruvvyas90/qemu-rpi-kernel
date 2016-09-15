@@ -1,17 +1,25 @@
-#!/bin/bash
+#!/bin/bash -e
 #
 # Build ARM kernel 4.1.7 for QEMU Raspberry Pi Emulation
 #
 #######################################################
 
 TOOLCHAIN=arm-linux-gnueabihf
+COMMIT=423c680bd722670f4b39ea79089859df02b411b6
 
-sudo apt-get update && sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf
-git clone https://github.com/raspberrypi/linux.git
-cd linux
+#sudo apt-get update
+sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf
+#git clone https://github.com/raspberrypi/linux.git
+wget -c https://github.com/raspberrypi/linux/archive/${COMMIT}.zip -O linux-${COMMIT}.zip
+rm -rf linux-${COMMIT}
+unzip linux-${COMMIT}.zip
+cd linux-${COMMIT}
 # checking out 4.1.7+ branch - change it if you want to change kernel version
 # for kernel specific hash, have a looks at : https://github.com/raspberrypi/linux/commits/rpi-4.1.y
 # git checkout 77798915750db46f10bb449e1625d6368ea42e25
+
+patch -p1 < ../linux-arm.patch
+
 make ARCH=arm versatile_defconfig
 cat >> .config << EOF
 CONFIG_CROSS_COMPILE="$TOOLCHAIN"
@@ -38,9 +46,24 @@ CONFIG_FONT_8x16=y
 CONFIG_LOGO=y
 CONFIG_VFP=y
 CONFIG_CGROUPS=y
+
+CONFIG_MMC_BCM2835=y
+CONFIG_MMC_BCM2835_DMA=y
+CONFIG_DMADEVICES=y
+CONFIG_DMA_BCM2708=y
+
+CONFIG_FHANDLE=y
+
+CONFIG_OVERLAY_FS=y
+
+CONFIG_EXT4_FS_POSIX_ACL=y
+CONFIG_EXT4_FS_SECURITY=y
+CONFIG_FS_POSIX_ACL=y
 EOF
+
+cat ../config_ip_tables >> .config
 
 make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- menuconfig
 make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage
 cd ..
-cp linux/arch/arm/boot/zImage kernel-qemu
+cp linux-${COMMIT}/arch/arm/boot/zImage kernel-qemu
