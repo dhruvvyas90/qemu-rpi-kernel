@@ -1,8 +1,7 @@
 In this subsection, I've included tools and instructions for those who want to build kernel themselves.
 
 `build-kernel-qemu` script helps one to automate kernel building process for any debian based distro.
-
-For other OSes, like windows or Mac OS X, one can have similar tools like gcc-arm-linux-gnueabihf- and other dependencies and refer `build-kernel-qemu` line by line to build the kernel.
+The ARM toolchain can be found in the debian package gcc-arm-linux-gnueabihf or at https://github.com/raspberrypi/tools. For other OSes, like windows or Mac OS X, one can have similar tools like gcc-arm-linux-gnueabihf- and other dependencies and refer `build-kernel-qemu` line by line to build the kernel.
 
 Please note that `build-kernel-qemu` is not an original work of mine and credit for it goes to the original author (https://github.com/johnlane).
 
