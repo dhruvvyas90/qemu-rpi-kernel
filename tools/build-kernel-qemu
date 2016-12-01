@@ -5,8 +5,8 @@
 #######################################################
 
 TOOLCHAIN=arm-linux-gnueabihf
-COMMIT=423c680bd722670f4b39ea79089859df02b411b6
-COMMIT=raspberrypi-kernel_1.20161020-1
+COMMIT=38f2800e6e94019a00a2880bfed8fba37aea2e5d
+COMMIT=raspberrypi-kernel_1.20161100-1
 COMMIT=""
 INSTALL_PACKAGES=""
 USE_GIT=1
