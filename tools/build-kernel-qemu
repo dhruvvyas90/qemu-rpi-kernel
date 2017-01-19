@@ -1,12 +1,12 @@
 #!/bin/bash -e
 #
-# Build ARM kernel 4.1.7 for QEMU Raspberry Pi Emulation
+# Build ARM kernel 4.4.y for QEMU Raspberry Pi Emulation
 #
 #######################################################
 
 TOOLCHAIN=arm-linux-gnueabihf
-COMMIT=423c680bd722670f4b39ea79089859df02b411b6
-COMMIT=raspberrypi-kernel_1.20160620-1
+COMMIT=38f2800e6e94019a00a2880bfed8fba37aea2e5d
+COMMIT=raspberrypi-kernel_1.20161100-1
 COMMIT=""
 INSTALL_PACKAGES=""
 USE_GIT=1
@@ -21,8 +21,8 @@ if [ "$INSTALL_PACKAGES" ] ; then
 fi
 
 if [ "$USE_GIT" ] ; then
-	# checking out 4.1.7+ branch - change it if you want to change kernel version
-	# for kernel specific hash, have a looks at : https://github.com/raspberrypi/linux/commits/rpi-4.1.y
+	# checking out 4.4.y branch - change it if you want to change kernel version
+	# for kernel specific hash, have a looks at : https://github.com/raspberrypi/linux/commits/rpi-4.4.y
 	if [ ! -d linux ] ; then
 		git clone https://github.com/raspberrypi/linux.git
 	else
