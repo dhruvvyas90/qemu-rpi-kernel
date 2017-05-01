@@ -9,7 +9,7 @@ COMMIT=38f2800e6e94019a00a2880bfed8fba37aea2e5d
 COMMIT=raspberrypi-kernel_1.20161100-1
 COMMIT=""
 INSTALL_PACKAGES=""
-USE_GIT=""
+USE_GIT=1
 USB_WEBCAM_MODULES=""    # add USB & V4L modules for USB webcam support (didn't work as static)
 
 if [ -f build-kernel-qemu.conf ] ; then
