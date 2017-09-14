@@ -17,7 +17,7 @@
 
 sudo apt-get update -y
 sudo apt-get install git -y
-sudo apt-get install gemu-system -y
+sudo apt-get install qemu-system -y
 git clone https://github.com/dhruvvyas90/qemu-rpi-kernel.git
 mv qemu-rpi-kernel/* .
 sudo rm -r qemu-rpi-kernel
