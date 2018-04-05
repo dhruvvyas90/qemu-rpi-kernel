@@ -5,9 +5,9 @@
 #######################################################
 
 TOOLCHAIN=arm-linux-gnueabihf
-COMMIT=38f2800e6e94019a00a2880bfed8fba37aea2e5d
-COMMIT=raspberrypi-kernel_1.20161100-1
-COMMIT=""
+COMMIT=6820d0cbec64cfee481b961833feffec8880111e
+COMMIT=raspberrypi-kernel_1.20171029-1
+#COMMIT=""
 INSTALL_PACKAGES=""
 USE_GIT=1
 USB_WEBCAM_MODULES=""    # add USB & V4L modules for USB webcam support (didn't work as static)
@@ -42,7 +42,7 @@ else
 fi
 
 patch -p1 < ../linux-arm.patch
-
+exit
 make ARCH=arm versatile_defconfig
 KERNEL_VERSION=$(make kernelversion)
 KERNEL_TARGET_FILE_NAME=../qemu-kernel-$KERNEL_VERSION
@@ -57,6 +57,7 @@ CONFIG_ARM_ERRATA_364296=y
 CONFIG_AEABI=y
 CONFIG_OABI_COMPAT=y
 CONFIG_PCI=y
+CONFIG_PCI_VERSATILE=y
 CONFIG_SCSI=y
 CONFIG_SCSI_SYM53C8XX_2=y
 CONFIG_BLK_DEV_SD=y
@@ -90,6 +91,8 @@ CONFIG_FS_POSIX_ACL=y
 
 CONFIG_IKCONFIG=y
 CONFIG_IKCONFIG_PROC=y
+
+CONFIG_MODVERSIONS=y
 EOF
 
 if [ $USB_WEBCAM_MODULES ] ; then
@@ -129,8 +132,9 @@ fi
 cat ../config_ip_tables >> .config
 
 make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- menuconfig
-make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage
+make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage dtbs
 cp arch/arm/boot/zImage $KERNEL_TARGET_FILE_NAME
+cp arch/arm/boot/dts/versatile-pb.dtb ../
 
 if [ $USB_WEBCAM_MODULES ] ; then
     mkdir -p $MODULES_INSTALL_PATH
