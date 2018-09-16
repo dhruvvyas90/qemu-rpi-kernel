@@ -1,0 +1,39 @@
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index d1346a160760..8de93ddc6f27 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -670,7 +670,7 @@ config ARCH_MULTI_V5
+ 	select ARCH_MULTI_V4_V5
+ 	select CPU_ARM926T if !(CPU_ARM946E || CPU_ARM1020 || \
+ 		CPU_ARM1020E || CPU_ARM1022 || CPU_ARM1026 || \
+-		CPU_XSCALE || CPU_XSC3 || CPU_MOHAWK || CPU_FEROCEON)
++		CPU_XSCALE || CPU_XSC3 || CPU_MOHAWK || CPU_FEROCEON || CPU_V6)
+ 
+ config ARCH_MULTI_V4_V5
+ 	bool
+diff --git a/arch/arm/mach-versatile/Kconfig b/arch/arm/mach-versatile/Kconfig
+index f5c275434d6c..87ff5f5379a9 100644
+--- a/arch/arm/mach-versatile/Kconfig
++++ b/arch/arm/mach-versatile/Kconfig
+@@ -7,7 +7,7 @@ config ARCH_VERSATILE
+ 	select ARM_VIC
+ 	select CLKSRC_VERSATILE
+ 	select COMMON_CLK_VERSATILE
+-	select CPU_ARM926T
++	select CPU_V6
+ 	select ICST
+ 	select MFD_SYSCON
+ 	select PLAT_VERSATILE
+diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
+index 91adb0d9936c..a56fea56902d 100644
+--- a/drivers/mmc/host/Kconfig
++++ b/drivers/mmc/host/Kconfig
+@@ -6,7 +6,7 @@ comment "MMC/SD/SDIO Host Controller Drivers"
+ 
+ config MMC_BCM2835_MMC
+ 	tristate "MMC support on BCM2835"
+-	depends on MACH_BCM2708 || MACH_BCM2709 || ARCH_BCM2835
++	depends on MACH_BCM2708 || MACH_BCM2709 || ARCH_BCM2835 || ARCH_VERSATILE
+ 	help
+ 	  This selects the MMC Interface on BCM2835.
+ 

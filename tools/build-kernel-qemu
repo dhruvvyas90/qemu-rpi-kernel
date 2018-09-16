@@ -5,9 +5,7 @@
 #######################################################
 
 TOOLCHAIN=arm-linux-gnueabihf
-COMMIT=6820d0cbec64cfee481b961833feffec8880111e
-COMMIT=raspberrypi-kernel_1.20171029-1
-#COMMIT=""
+COMMIT=raspberrypi-kernel_1.20180619-1
 INSTALL_PACKAGES=""
 USE_GIT=1
 USB_WEBCAM_MODULES=""    # add USB & V4L modules for USB webcam support (didn't work as static)
@@ -41,12 +39,15 @@ else
 	cd linux-${COMMIT}
 fi
 
-patch -p1 < ../linux-arm.patch
-exit
-make ARCH=arm versatile_defconfig
 KERNEL_VERSION=$(make kernelversion)
 KERNEL_TARGET_FILE_NAME=../qemu-kernel-$KERNEL_VERSION
 MODULES_INSTALL_PATH=../qemu-kernel-$KERNEL_VERSION-modules
+if [ -e "../linux-arm-$KERNEL_VERSION.patch" ]; then
+    patch -p1 < ../linux-arm-$KERNEL_VERSION.patch
+else
+    patch -p1 < ../linux-arm.patch
+fi
+make ARCH=arm versatile_defconfig
 echo "Building Qemu Raspberry Pi kernel qemu-kernel-$KERNEL_VERSION"
 
 cat >> .config << EOF
