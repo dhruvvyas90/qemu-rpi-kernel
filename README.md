@@ -21,4 +21,4 @@ qemu-system-arm -kernel kernel-qemu-4.9.59-stretch -cpu arm1176 -m 256 -M versat
 
 Build scripts are kept in tools folder for reference.
 
-Go through wiki page for step by step guide how to emulate Raspberry Pi on Qemu on any platform (Win, linux or Mac OS)
+Go through wiki page (https://github.com/dhruvvyas90/qemu-rpi-kernel/wiki) for step by step guide how to emulate Raspberry Pi on Qemu on any platform (Win, linux or Mac OS)
