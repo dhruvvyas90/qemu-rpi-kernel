@@ -46,6 +46,29 @@ The QEMU command line will look like
 with the paths to the disk image, `.dtb` file and kernel image adjusted
 appropriately.
 
+## Using kernel images with libvirt
+
+Assuming your libvirt version is at least 5.0.0, you can use something like
+
+    $ virt-install \
+      --name pi \
+      --arch armv6l \
+      --machine versatilepb \
+      --cpu arm1176 \
+      --vcpus 1 \
+      --memory 256 \
+      --import \
+      --disk /.../2018-11-13-raspbian-stretch-lite.img,format=raw,bus=virtio \
+      --network user,model=virtio \
+      --video vga \
+      --graphics spice \
+      --rng device=/dev/urandom,model=virtio \
+      --boot 'dtb=/.../versatile-pb.dtb,kernel=/.../kernel-qemu-4.14.79-stretch,kernel_args=root=/dev/vda2 panic=1' \
+      --events on_reboot=destroy
+
+to create a new libvirt guest called `pi`. You'll be able to manage the guest
+with all the usual tools, such as `virsh` and `virt-manager`.
+
 ## Building your own kernel image
 
 See the contents of the `tools/` directory, where the build scripts and
