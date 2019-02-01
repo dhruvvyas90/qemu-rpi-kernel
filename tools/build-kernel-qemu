@@ -155,7 +155,9 @@ cat ../config_ip_tables >> .config
 make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- menuconfig
 make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage dtbs
 cp arch/arm/boot/zImage $KERNEL_TARGET_FILE_NAME
-cp arch/arm/boot/dts/versatile-pb.dtb ../
+if [ -e arch/arm/boot/dts/versatile-pb.dtb ] ; then
+    cp arch/arm/boot/dts/versatile-pb.dtb ../
+fi
 
 if [ $USB_WEBCAM_MODULES ] ; then
     mkdir -p $MODULES_INSTALL_PATH
