@@ -79,7 +79,7 @@ instructions on how to use them are stored.
 While searching the Internet for information on emulating a Raspberry Pi using
 QEMU in Jun 2015, most of the guides pointed to kernel images hosted on
 [xecdesign.com]; however, at the time the resource was no longer online, and
-that's still the case as of Jan 2015.
+that's still the case as of Feb 2019.
 
 This repository was initially created as a way to make those kernel images
 available once again, and has since been expanded to provide improved and
