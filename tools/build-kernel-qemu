@@ -39,6 +39,9 @@ else
 	cd linux-${COMMIT}
 fi
 
+# Use all available cores for compilation
+export MAKEFLAGS="$MAKEFLAGS -j$(nproc)"
+
 KERNEL_VERSION=$(make kernelversion)
 KERNEL_TARGET_FILE_NAME=../qemu-kernel-$KERNEL_VERSION
 MODULES_INSTALL_PATH=../qemu-kernel-$KERNEL_VERSION-modules
@@ -149,8 +152,8 @@ fi
 
 cat ../config_ip_tables >> .config
 
-make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- menuconfig
-make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage dtbs
+make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- menuconfig
+make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage dtbs
 cp arch/arm/boot/zImage $KERNEL_TARGET_FILE_NAME
 cp arch/arm/boot/dts/versatile-pb.dtb ../
 
@@ -159,8 +162,8 @@ if [ $USB_WEBCAM_MODULES ] ; then
     if [ ! -d $MODULES_INSTALL_PATH ] ; then
         echo "Couldn't create webcam modules install directory $MODULES_INSTALL_PATH"
     fi
-    make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- modules
-    make -j 4 -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- \
+    make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- modules
+    make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- \
         INSTALL_MOD_PATH=$MODULES_INSTALL_PATH modules_install
     echo "Copy modules to Raspberry to /lib/modules/$KERNEL_VERSION"
 fi
