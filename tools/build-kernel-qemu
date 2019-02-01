@@ -5,7 +5,7 @@
 #######################################################
 
 TOOLCHAIN=arm-linux-gnueabihf
-COMMIT=raspberrypi-kernel_1.20180619-1
+COMMIT=raspberrypi-kernel_1.20181112-1
 INSTALL_PACKAGES=""
 USE_GIT=1
 USB_WEBCAM_MODULES=""    # add USB & V4L modules for USB webcam support (didn't work as static)
