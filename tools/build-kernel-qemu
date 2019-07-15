@@ -1,11 +1,11 @@
 #!/bin/bash -e
 #
-# Build ARM kernel 4.4.y for QEMU Raspberry Pi Emulation
+# Build ARM kernel 4.x.y for QEMU Raspberry Pi Emulation
 #
 #######################################################
 
 TOOLCHAIN=arm-linux-gnueabihf
-COMMIT=raspberrypi-kernel_1.20181112-1
+COMMIT=raspberrypi-kernel_1.20190620-1
 INSTALL_PACKAGES=""
 USE_GIT=1
 USB_WEBCAM_MODULES=""    # add USB & V4L modules for USB webcam support (didn't work as static)
@@ -20,8 +20,10 @@ if [ "$INSTALL_PACKAGES" ] ; then
 fi
 
 if [ "$USE_GIT" ] ; then
-	# checking out 4.4.y branch - change it if you want to change kernel version
-	# for kernel specific hash, have a looks at : https://github.com/raspberrypi/linux/commits/rpi-4.4.y
+	# checking out 4.x.y tag - change it if you want to change kernel version
+	# for a specific hash, have a look at: https://github.com/raspberrypi/linux/tags
+	# To check the effective kernel version, click on a tag in that list;
+	# the branch and tag name are under the commit message.
 	if [ ! -d linux ] ; then
 		git clone https://github.com/raspberrypi/linux.git
 	else
