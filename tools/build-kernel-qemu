@@ -10,6 +10,10 @@ INSTALL_PACKAGES=""
 USE_GIT=1
 USB_WEBCAM_MODULES=""    # add USB & V4L modules for USB webcam support (didn't work as static)
 
+SOURCE_DIR=$(pwd)
+BUILD_DIR=$SOURCE_DIR
+TARGET_DIR=$SOURCE_DIR
+
 if [ -f build-kernel-qemu.conf ] ; then
 	. build-kernel-qemu.conf
 fi
@@ -18,6 +22,10 @@ if [ "$INSTALL_PACKAGES" ] ; then
 	sudo apt-get update
 	sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf
 fi
+
+mkdir -p $BUILD_DIR $TARGET_DIR
+CUR_DIR=$(pwd)
+cd $BUILD_DIR
 
 if [ "$USE_GIT" ] ; then
 	# checking out 4.x.y tag - change it if you want to change kernel version
@@ -45,12 +53,12 @@ fi
 export MAKEFLAGS="$MAKEFLAGS -j$(nproc)"
 
 KERNEL_VERSION=$(make kernelversion)
-KERNEL_TARGET_FILE_NAME=../qemu-kernel-$KERNEL_VERSION
-MODULES_INSTALL_PATH=../qemu-kernel-$KERNEL_VERSION-modules
+KERNEL_TARGET_FILE_NAME=$TARGET_DIR/qemu-kernel-$KERNEL_VERSION
+MODULES_INSTALL_PATH=$TARGET_DIR/qemu-kernel-$KERNEL_VERSION-modules
 if [ -e "../linux-arm-$KERNEL_VERSION.patch" ]; then
-    patch -p1 < ../linux-arm-$KERNEL_VERSION.patch
+    patch -p1 < $SOURCE_DIR/linux-arm-$KERNEL_VERSION.patch
 else
-    patch -p1 < ../linux-arm.patch
+    patch -p1 < $SOURCE_DIR/linux-arm.patch
 fi
 make ARCH=arm versatile_defconfig
 echo "Building Qemu Raspberry Pi kernel qemu-kernel-$KERNEL_VERSION"
@@ -59,24 +67,24 @@ cat >> .config << EOF
 CONFIG_CROSS_COMPILE="$TOOLCHAIN"
 EOF
 
-if [ -e "../config_file_$KERNEL_VERSION" ]; then
-    cat "../config_file_$KERNEL_VERSION" >> .config
+if [ -e "$SOURCE_DIR/config_file_$KERNEL_VERSION" ]; then
+    cat "$SOURCE_DIR/config_file_$KERNEL_VERSION" >> .config
 else
-    cat "../config_file" >> .config
+    cat "$SOURCE_DIR/config_file" >> .config
 fi
 
 if [ $USB_WEBCAM_MODULES ] ; then
     echo "Make sure you have drivers for your webcam selected in menuconfig"
-    cat ../config_webcam >> .config
+    cat $SOURCE_DIR/config_webcam >> .config
 fi
 
-cat ../config_ip_tables >> .config
+cat $SOURCE_DIR/config_ip_tables >> .config
 
 make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- menuconfig
 make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage dtbs
 cp arch/arm/boot/zImage $KERNEL_TARGET_FILE_NAME
 if [ -e arch/arm/boot/dts/versatile-pb.dtb ] ; then
-    cp arch/arm/boot/dts/versatile-pb.dtb ../
+    cp arch/arm/boot/dts/versatile-pb.dtb $TARGET_DIR
 fi
 
 if [ $USB_WEBCAM_MODULES ] ; then
@@ -90,4 +98,4 @@ if [ $USB_WEBCAM_MODULES ] ; then
     echo "Copy modules to Raspberry to /lib/modules/$KERNEL_VERSION"
 fi
 
-cd ..
+cd $CUR_DIR
