@@ -9,6 +9,8 @@ COMMIT=raspberrypi-kernel_1.20190620-1
 INSTALL_PACKAGES=""
 USE_GIT=1
 USB_WEBCAM_MODULES=""    # add USB & V4L modules for USB webcam support (didn't work as static)
+KERNEL_MAKE_CONFIG=menuconfig # set to olddefconfig to skip user prompting
+KERNEL_EXTRA_CONFIG=""
 
 SOURCE_DIR=$(pwd)
 BUILD_DIR=$SOURCE_DIR
@@ -73,6 +75,10 @@ else
     cat "$SOURCE_DIR/config_file" >> .config
 fi
 
+if [ -e "$KERNEL_EXTRA_CONFIG" ]; then
+    cat "$KERNEL_EXTRA_CONFIG" >> .config
+fi
+
 if [ $USB_WEBCAM_MODULES ] ; then
     echo "Make sure you have drivers for your webcam selected in menuconfig"
     cat $SOURCE_DIR/config_webcam >> .config
@@ -80,7 +86,7 @@ fi
 
 cat $SOURCE_DIR/config_ip_tables >> .config
 
-make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- menuconfig
+make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- $KERNEL_MAKE_CONFIG
 make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage dtbs
 cp arch/arm/boot/zImage $KERNEL_TARGET_FILE_NAME
 if [ -e arch/arm/boot/dts/versatile-pb.dtb ] ; then
