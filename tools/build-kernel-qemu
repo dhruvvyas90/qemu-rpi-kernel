@@ -20,7 +20,7 @@ fi
 
 if [ "$INSTALL_PACKAGES" ] ; then
 	sudo apt-get update
-	sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf
+	sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf flex bison
 fi
 
 mkdir -p $BUILD_DIR $TARGET_DIR
