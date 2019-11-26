@@ -39,6 +39,8 @@ if [ "$USE_GIT" ] ; then
 	fi
 	cd linux
 	if [ "$COMMIT" ] ; then
+		git reset --hard
+		git clean -xdf
 		git checkout "$COMMIT"
 	fi
 else
@@ -79,6 +81,7 @@ if [ $USB_WEBCAM_MODULES ] ; then
 fi
 
 cat $SOURCE_DIR/config_ip_tables >> .config
+cat $SOURCE_DIR/config_loopdev >> .config
 
 make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- menuconfig
 make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage dtbs
