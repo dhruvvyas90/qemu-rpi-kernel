@@ -19,3 +19,45 @@ https://web.archive.org/web/20131210001526/http://xecdesign.com/qemu-emulating-r
 https://github.com/johnlane/rpi-utils/blob/master/kernel/build-kernel-qemu
 
 https://github.com/polaco1782/raspberry-qemu/blob/master/build-kernel-qemu
+
+# Vagrant
+
+The `Vagrantfile` is useful to build the kernel on non-Linux
+systems. First, install and familiarize yourself with
+[Vagrant](https://www.vagrantup.com/). Run:
+
+    host$ vagrant up
+
+Wait a little while for the VM to provision. Then:
+
+    host$ vagrant ssh
+    Welcome to Ubuntu 18.04.3 LTS (GNU/Linux 4.15.0-66-generic x86_64)
+    ...
+
+    vagrant@ubuntu-bionic:~$
+
+This `tools/` directory on the host is mounted in the VM at
+`/vagrant`:
+
+    vagrant@ubuntu-bionic:~$ cd /vagrant
+    vagrant@ubuntu-bionic:/vagrant$ ./build-kernel-qemu
+
+`build-kernel-qemu` then proceeds as normal.
+
+Important note! Git does not perform well on the `/vagrant` shared
+filesystem, so it's worth it to build the kernel in a VM-only
+filesystem. You can do this by modifying the `build-kernel-qemu.conf`
+file and specifying a different `BUILD_DIR`. These are reasonable
+settings, for instance, for building a Raspberry Pi 3 kernel:
+
+    COMMIT=rpi-4.19.y
+    BUILD_DIR=/tmp/build
+    TARGET_DIR=$(pwd)/output
+
+This will place the kernel on the host machine in a `output/`
+directory.
+
+To clean up:
+
+    host$ vagrant halt
+    host$ vagrant destroy

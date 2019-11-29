@@ -1,2 +1,4 @@
 linux
 build-kernel-qemu.conf
+.vagrant/
+*console.log
