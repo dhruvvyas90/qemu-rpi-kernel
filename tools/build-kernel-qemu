@@ -22,7 +22,7 @@ fi
 
 if [ "$INSTALL_PACKAGES" ] ; then
 	sudo apt-get update
-	sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf
+	sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf flex bison
 fi
 
 mkdir -p $BUILD_DIR $TARGET_DIR
@@ -41,6 +41,8 @@ if [ "$USE_GIT" ] ; then
 	fi
 	cd linux
 	if [ "$COMMIT" ] ; then
+		git reset --hard
+		git clean -xdf
 		git checkout "$COMMIT"
 	fi
 else
@@ -85,6 +87,7 @@ if [ $USB_WEBCAM_MODULES ] ; then
 fi
 
 cat $SOURCE_DIR/config_ip_tables >> .config
+cat $SOURCE_DIR/config_loopdev >> .config
 
 make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- $KERNEL_MAKE_CONFIG
 make -k ARCH=arm CROSS_COMPILE=${TOOLCHAIN}- bzImage dtbs
