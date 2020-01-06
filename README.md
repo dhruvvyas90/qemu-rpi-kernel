@@ -21,10 +21,9 @@ This repository contains three types of kernel images:
   you are positive you need a different kernel, the most recent of these images
   is probably what you want.
 
-* `kernel-qemu-4.*.*-stretch` are compatible with Raspbian Stretch and Jessie.
-  To use these images, you'll need the `versatile-pb.dtb` file which is also
-  contained in this repository. Unless you are positive you need a different
-  kernel, the most recent of these images is probably what you want.
+* `kernel-qemu-4.*.*-stretch` are images compatible with Raspbian Stretch and
+  Jessie. To use these images, you'll need the `versatile-pb.dtb` file which
+  is also contained in this repository.
 
 * `kernel-qemu-4.4.*-jessie` are images compatible with Raspbian Jessie and
   Wheezy.
