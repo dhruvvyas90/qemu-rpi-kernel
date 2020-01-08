@@ -42,7 +42,7 @@ The QEMU command line will look like
       -m 256 \
       -hda /.../2018-11-13-raspbian-stretch-lite.img \
       -net nic \
-      -net user,hostfwd=tcp::5022-:22 \
+      -nic user,hostfwd=tcp::5022-:22 \
       -dtb /.../versatile-pb.dtb \
       -kernel /.../kernel-qemu-4.14.79-stretch \
       -append 'root=/dev/sda2 panic=1' \
