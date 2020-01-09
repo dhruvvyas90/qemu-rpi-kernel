@@ -21,10 +21,9 @@ This repository contains three types of kernel images:
   you are positive you need a different kernel, the most recent of these images
   is probably what you want.
 
-* `kernel-qemu-4.*.*-stretch` are compatible with Raspbian Stretch and Jessie.
-  To use these images, you'll need the `versatile-pb.dtb` file which is also
-  contained in this repository. Unless you are positive you need a different
-  kernel, the most recent of these images is probably what you want.
+* `kernel-qemu-4.*.*-stretch` are images compatible with Raspbian Stretch and
+  Jessie. To use these images, you'll need the `versatile-pb.dtb` file which
+  is also contained in this repository.
 
 * `kernel-qemu-4.4.*-jessie` are images compatible with Raspbian Jessie and
   Wheezy.
@@ -40,11 +39,11 @@ The QEMU command line will look like
       -M versatilepb \
       -cpu arm1176 \
       -m 256 \
-      -hda /.../2018-11-13-raspbian-stretch-lite.img \
+      -hda /.../2019-09-26-raspbian-buster-lite.img \
       -net nic \
       -net user,hostfwd=tcp::5022-:22 \
       -dtb /.../versatile-pb.dtb \
-      -kernel /.../kernel-qemu-4.14.79-stretch \
+      -kernel /.../kernel-qemu-4.19.50-buster \
       -append 'root=/dev/sda2 panic=1' \
       -no-reboot
 
@@ -71,12 +70,12 @@ Assuming your libvirt version is at least 5.0.0, you can use something like
       --vcpus 1 \
       --memory 256 \
       --import \
-      --disk /.../2018-11-13-raspbian-stretch-lite.img,format=raw,bus=virtio \
+      --disk /.../2019-09-26-raspbian-buster-lite.img,format=raw,bus=virtio \
       --network user,model=virtio \
       --video vga \
       --graphics spice \
       --rng device=/dev/urandom,model=virtio \
-      --boot 'dtb=/.../versatile-pb.dtb,kernel=/.../kernel-qemu-4.14.79-stretch,kernel_args=root=/dev/vda2 panic=1' \
+      --boot 'dtb=/.../versatile-pb.dtb,kernel=/.../kernel-qemu-4.19.50-buster,kernel_args=root=/dev/vda2 panic=1' \
       --events on_reboot=destroy
 
 to create a new libvirt guest called `pi`. You'll be able to manage the guest
