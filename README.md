@@ -51,6 +51,14 @@ The QEMU command line will look like
 with the paths to the disk image, `.dtb` file and kernel image adjusted
 appropriately.
 
+There is a Docker image available to automate this whole process:
+
+```
+docker run -it lukechilds/dockerpi
+```
+
+More information: https://github.com/lukechilds/dockerpi
+
 ## Using kernel images with libvirt
 
 Assuming your libvirt version is at least 5.0.0, you can use something like
