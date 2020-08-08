@@ -1,0 +1,4 @@
+# Please note that the 5.41.51 kernel
+# configuration includes advanced network
+# functionality embedded on the kernel
+COMMIT=raspberrypi-kernel_1.20181112-1

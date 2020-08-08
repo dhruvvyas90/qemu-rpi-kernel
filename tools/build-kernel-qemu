@@ -1,13 +1,16 @@
-#!/bin/bash -e
+#!/bin/bash
 #
-# Build ARM kernel 4.x.y for QEMU Raspberry Pi Emulation
+# Build ARM kernel 4.x.y and 5.x.y for
+# QEMU Raspberry Pi Emulation
 #
 #######################################################
 
 TOOLCHAIN=arm-linux-gnueabihf
-COMMIT=raspberrypi-kernel_1.20190620-1
-INSTALL_PACKAGES=""
-USE_GIT=1
+COMMIT=""
+# Change to true if you want to install the packages
+INSTALL_PACKAGES=
+# Change to true if you want to clone the repo (takes longer)
+USE_GIT=
 USB_WEBCAM_MODULES=""    # add USB & V4L modules for USB webcam support (didn't work as static)
 KERNEL_MAKE_CONFIG=menuconfig # set to olddefconfig to skip user prompting
 KERNEL_EXTRA_CONFIG=""
@@ -20,7 +23,9 @@ if [ -f build-kernel-qemu.conf ] ; then
 	. build-kernel-qemu.conf
 fi
 
-if [ "$INSTALL_PACKAGES" ] ; then
+
+if [ -n "$INSTALL_PACKAGES" ] ; then
+	echo "NOT EMPTY"
 	sudo apt-get update
 	sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf flex bison
 fi
@@ -29,7 +34,7 @@ mkdir -p $BUILD_DIR $TARGET_DIR
 CUR_DIR=$(pwd)
 cd $BUILD_DIR
 
-if [ "$USE_GIT" ] ; then
+if [ -n "$USE_GIT" ] ; then
 	# checking out 4.x.y tag - change it if you want to change kernel version
 	# for a specific hash, have a look at: https://github.com/raspberrypi/linux/tags
 	# To check the effective kernel version, click on a tag in that list;
@@ -47,10 +52,10 @@ if [ "$USE_GIT" ] ; then
 	fi
 else
 	if [ -z "$COMMIT" ] ; then echo "COMMIT missing!" >&2 ; exit 1 ; fi
-	wget -c https://github.com/raspberrypi/linux/archive/${COMMIT}.zip -O linux-${COMMIT}.zip
+	wget -c https://github.com/raspberrypi/linux/archive/${COMMIT}.tar.gz -O linux-${COMMIT}.tar.gz
 	rm -rf linux-${COMMIT}
-	unzip linux-${COMMIT}.zip
-	cd linux-${COMMIT}
+	tar -xzvf linux-${COMMIT}.tar.gz
+  cd linux-${COMMIT}
 fi
 
 # Use all available cores for compilation
