@@ -1,0 +1,59 @@
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 05c9bbfe4..e28101028 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -561,7 +561,7 @@ config ARCH_MULTI_V5
+ 	select ARCH_MULTI_V4_V5
+ 	select CPU_ARM926T if !(CPU_ARM946E || CPU_ARM1020 || \
+ 		CPU_ARM1020E || CPU_ARM1022 || CPU_ARM1026 || \
+-		CPU_XSCALE || CPU_XSC3 || CPU_MOHAWK || CPU_FEROCEON)
++		CPU_XSCALE || CPU_XSC3 || CPU_MOHAWK || CPU_FEROCEON || CPU_V6)
+ 
+ config ARCH_MULTI_V4_V5
+ 	bool
+diff --git a/arch/arm/mach-versatile/Kconfig b/arch/arm/mach-versatile/Kconfig
+index f5c275434..87ff5f537 100644
+--- a/arch/arm/mach-versatile/Kconfig
++++ b/arch/arm/mach-versatile/Kconfig
+@@ -7,7 +7,7 @@ config ARCH_VERSATILE
+ 	select ARM_VIC
+ 	select CLKSRC_VERSATILE
+ 	select COMMON_CLK_VERSATILE
+-	select CPU_ARM926T
++	select CPU_V6
+ 	select ICST
+ 	select MFD_SYSCON
+ 	select PLAT_VERSATILE
+diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
+index fe56ca672..b5e573a20 100644
+--- a/drivers/mmc/host/Kconfig
++++ b/drivers/mmc/host/Kconfig
+@@ -7,7 +7,7 @@ comment "MMC/SD/SDIO Host Controller Drivers"
+ 
+ config MMC_BCM2835_MMC
+ 	tristate "MMC support on BCM2835"
+-	depends on MACH_BCM2708 || MACH_BCM2709 || ARCH_BCM2835
++	depends on MACH_BCM2708 || MACH_BCM2709 || ARCH_BCM2835 || ARCH_VERSATILE
+ 	help
+ 	  This selects the MMC Interface on BCM2835.
+ 
+diff --git a/drivers/pci/controller/pci-versatile.c b/drivers/pci/controller/pci-versatile.c
+index ca8ec84d0..93393388b 100644
+--- a/drivers/pci/controller/pci-versatile.c
++++ b/drivers/pci/controller/pci-versatile.c
+@@ -62,6 +62,7 @@ static struct pci_ops pci_versatile_ops = {
+ 	.write	= pci_generic_config_write,
+ };
+ 
++/*
+ static int versatile_pci_parse_request_of_pci_ranges(struct device *dev,
+ 						     struct list_head *res)
+ {
+@@ -110,6 +111,7 @@ static int versatile_pci_parse_request_of_pci_ranges(struct device *dev,
+ 	pci_free_resource_list(res);
+ 	return err;
+ }
++*/
+ 
+ static int versatile_pci_probe(struct platform_device *pdev)
+ {
