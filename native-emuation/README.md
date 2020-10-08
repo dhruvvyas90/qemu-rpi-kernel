@@ -10,7 +10,7 @@ raspberry pi emulation using Qemu's raspi2/raspi3 machine.
 - Raspberry pi kernel image
 - Relevant dtb files
 
-### Step by step guide to extract dtb files and kernel image from img files
+### Step by step guide to extract dtb files and kernel image from img file
 
 Mount the image file
 
