@@ -21,7 +21,7 @@ Mount the image file
 Copy kernel files / dtb files
 
 - `cp /mnt/pi/kernel* .`
-- `cp /mnt/pi/*.dtb *`
+- `cp /mnt/pi/*.dtb .`
 
 Unmount the image file
 
