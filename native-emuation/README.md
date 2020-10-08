@@ -1,7 +1,7 @@
 ## Native emulation of Rpi2/3 using Qemu's Raspi2/3 machine
 
-This section of repo have a set of instructions and relevant files in order to use
-raspberry pi emulation using Qemu's raspi2/raspi3 machine.
+This section of repo have a set of instructions and relevant files in order to emulate 
+raspberry pi using Qemu's raspi2/raspi3 machine.
 
 ### Pre requisites
 
