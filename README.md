@@ -13,12 +13,12 @@ They are compiled from the same [kernel sources] used for official Raspian
 images, with tweaks to make them suitable for use with QEMU, and are supposed
 to be used along with official Raspbian images.
 
-## Obtaining Raspbian
+### Obtaining Raspbian
 
 Before starting, you should download a [Raspbian image] from the Raspberry Pi
 website and extract the `.zip` archive to obtain an `.img` file.
 
-## Choosing a kernel image
+### Choosing a kernel image
 
 This repository contains three types of kernel images:
 
@@ -39,7 +39,7 @@ This repository contains three types of kernel images:
 * `kernel-qemu-3.10.25-wheezy` is the original image from [xecdesign.com],
   which is compatible with Raspbian Wheezy only.
 
-## Using kernel images with QEMU
+### Using kernel images with QEMU
 
 The QEMU command line will look like
 
@@ -79,7 +79,7 @@ docker run -it lukechilds/dockerpi
 
 More information: https://github.com/lukechilds/dockerpi
 
-## Using kernel images with libvirt
+### Using kernel images with libvirt
 
 Assuming your libvirt version is at least 5.0.0, you can use something like
 
@@ -102,12 +102,12 @@ Assuming your libvirt version is at least 5.0.0, you can use something like
 to create a new libvirt guest called `pi`. You'll be able to manage the guest
 with all the usual tools, such as `virsh` and `virt-manager`.
 
-## Building your own kernel image
+### Building your own kernel image
 
 See the contents of the `tools/` directory, where the build scripts and
 instructions on how to use them are stored.
 
-## Origin of this repository
+### Origin of this repository
 
 While searching the Internet for information on emulating a Raspberry Pi using
 QEMU in Jun 2015, most of the guides pointed to kernel images hosted on
@@ -118,7 +118,7 @@ This repository was initially created as a way to make those kernel images
 available once again, and has since been expanded to provide improved and
 up-to-date images.
 
-## Further information
+### Further information
 
 Additional documentation can be found on the [wiki].
 
