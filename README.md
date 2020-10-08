@@ -1,5 +1,12 @@
 # qemu-rpi-kernel
 
+## Emuation using Qemu's native raspi2/3 machine
+
+Check instructions under `native-emulation` subfolder in order to use Qemu's
+native raspi2/3 machine to emulate raspberry pi. 
+
+## Emulation using pre-compiled versatilepb kernels
+
 Ready-made kernels that can be used to emulate a Raspberry Pi using QEMU.
 
 They are compiled from the same [kernel sources] used for official Raspian
