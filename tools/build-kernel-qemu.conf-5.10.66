@@ -1,0 +1,4 @@
+# Please note that the 5.41.51 kernel
+# configuration includes advanced network
+# functionality embedded on the kernel
+COMMIT=1.20211007
