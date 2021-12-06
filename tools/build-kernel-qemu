@@ -27,7 +27,7 @@ fi
 if [ -n "$INSTALL_PACKAGES" ] ; then
 	echo "NOT EMPTY"
 	sudo apt-get update
-	sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf flex bison
+	sudo apt-get install git bc libncurses5-dev gcc-arm-linux-gnueabihf flex bison
 fi
 
 mkdir -p $BUILD_DIR $TARGET_DIR
