@@ -1,4 +1,13 @@
+# Intermediates
 /linux
-/build-kernel-qemu.conf
+/linux-1*
+/*.tar.gz
+
+# Outputs
 /qemu-kernel-*
 /versatile-pb.dtb
+
+# Config
+/build-kernel-qemu.conf
+/config_file
+/linux-arm.patch
