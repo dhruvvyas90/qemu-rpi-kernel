@@ -19,10 +19,34 @@ SOURCE_DIR=$(pwd)
 BUILD_DIR=$SOURCE_DIR
 TARGET_DIR=$SOURCE_DIR
 
-if [ -f build-kernel-qemu.conf ] ; then
-	. build-kernel-qemu.conf
+
+IFS=" " read -a kqemuconf   <<<`echo build-kernel-qemu.*`
+
+BUILD_TARGET_CFG=${kqemuconf}
+
+if [ -n $kqemuconf ] ; then
+
+    for  modconf  in  ${!kqemuconf[*]} ; do
+        echo -e "\t $(($modconf+1)) -> ${kqemuconf[${modconf}]}"
+    done
+
+    read  -p "Select kernel build : "
+
+    if [  -z ${kqemuconf[$(($REPLY -1 ))]} ] ; then
+        exit 1
+    fi
+
+    BUILD_TARGET_CFG=${kqemuconf[$(($REPLY -1))]}
+
 fi
 
+if [ -f $BUILD_TARGET_CFG ] ; then
+
+    #+ load the configuration ...
+    echo  "loading  build ->  $BUILD_TARGET_CFG"
+    source  $BUILD_TARGET_CFG
+
+fi
 
 if [ -n "$INSTALL_PACKAGES" ] ; then
 	echo "NOT EMPTY"
