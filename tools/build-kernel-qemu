@@ -18,7 +18,8 @@ KERNEL_EXTRA_CONFIG=""
 SOURCE_DIR=$(pwd)
 BUILD_DIR=$SOURCE_DIR
 TARGET_DIR=$SOURCE_DIR
-
+                  
+LINUX_ARCHIVE_SOURCE="https://github.com/raspberrypi/linux/archive/"
 
 IFS=" " read -a kqemuconf   <<<`echo build-kernel-qemu.*`
 
@@ -58,6 +59,13 @@ mkdir -p $BUILD_DIR $TARGET_DIR
 CUR_DIR=$(pwd)
 cd $BUILD_DIR
 
+fetch_and_unpack_linux_archive ()  {  
+    local commit_target=$1
+    wget  -c   $LINUX_ARCHIVE_SOURCE${commit_target}.tar.gz -O   linux-${commit_target}.tar.gz  
+    rm -rf  linux-${commit_target}  
+    tar -xzvf linux-${commit_target}.tar.gz  
+} 
+
 if [ -n "$USE_GIT" ] ; then
 	# checking out 4.x.y tag - change it if you want to change kernel version
 	# for a specific hash, have a look at: https://github.com/raspberrypi/linux/tags
@@ -76,10 +84,22 @@ if [ -n "$USE_GIT" ] ; then
 	fi
 else
 	if [ -z "$COMMIT" ] ; then echo "COMMIT missing!" >&2 ; exit 1 ; fi
-	wget -c https://github.com/raspberrypi/linux/archive/${COMMIT}.tar.gz -O linux-${COMMIT}.tar.gz
-	rm -rf linux-${COMMIT}
-	tar -xzvf linux-${COMMIT}.tar.gz
-  cd linux-${COMMIT}
+    if [ -d  linux-${COMMIT} ]   ;then 
+         
+        read  -p  "Found previews build directory :: linux-${COMMIT} use  it ? [y/n] "  
+        case ${REPLY}  in 
+            "y"|"Y" |"yes"|"YES")
+                cd  linux-${COMMIT} 
+                ;; 
+                *)
+                fetch_and_unpack_linux_archive ${COMMIT}  
+                cd linux-${COMMIT}
+                ;; 
+        esac
+    else 
+        fetch_and_unpack_linux_archive ${COMMIT} 
+        cd linux-${COMMIT}            
+    fi 
 fi
 
 # Use all available cores for compilation
@@ -94,8 +114,15 @@ else
     patch -p1 < $SOURCE_DIR/linux-arm.patch
 fi
 make ARCH=arm versatile_defconfig
-echo "Building Qemu Raspberry Pi kernel qemu-kernel-$KERNEL_VERSION"
+echo -e "##################################################################"
+echo    " Building Qemu Raspberry Pi kernel qemu-kernel-$KERNEL_VERSION"
+echo -e "##################################################################" 
 
+if  [ -z  `command -v  ${TOOLCHAIN}-gcc` ]  ; then 
+    #+NOTE: you need to  install  the toolchain first ...
+    echo -e "Cannot found Toolchain cross compiler  <${TOOLCHAIN}> missing ... !"
+    exit -1 
+fi 
 cat >> .config << EOF
 CONFIG_CROSS_COMPILE="$TOOLCHAIN"
 EOF
